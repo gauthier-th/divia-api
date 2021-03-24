@@ -1,6 +1,6 @@
 {
   "name": "@gauthier-th/divia-api-v2",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Divia API v2",
   "main": "src/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "dependencies": {
     "isomorphic-unfetch": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

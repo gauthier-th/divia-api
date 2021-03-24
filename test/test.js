@@ -1,5 +1,5 @@
 const assert = require('assert');
-const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 const DiviaAPI = require('../src');
 
 describe('DiviaAPI', () => {
@@ -27,7 +27,7 @@ describe('DiviaAPI', () => {
 		it('should return a valid jwt access token', async () => {
 			const token = await instance._getToken().catch(() => assert.fail());
 			if (token)
-				jwt.decode(token);
+				jwt_decode(token);
 		});
 	});
 	describe('#getLine', () => {
