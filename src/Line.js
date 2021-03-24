@@ -12,6 +12,10 @@ class Line {
 		this.data = data;
 	}
 
+	get stops() {
+		return this.data.arrets[id];
+	}
+
 	/**
 	 * @param {string} id 
 	 * @returns {Stop}
