@@ -1,4 +1,15 @@
 export = Stop;
+/**
+ * @typedef StopObject
+ * @param {string} id
+ * @param {string} code
+ * @param {string} nom
+ * @param {boolean} favori
+ * @param {string} longitude
+ * @param {string} latitude
+ * @param {string} recherche
+ * @param {string} direction
+ */
 declare class Stop {
     /**
      * @param {DiviaAPI} api
@@ -31,6 +42,7 @@ declare class Stop {
     }[]>;
 }
 declare namespace Stop {
-    export { Stop as default };
+    export { Stop as default, StopObject };
 }
 import DiviaAPI = require("./");
+type StopObject = any;

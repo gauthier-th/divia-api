@@ -3,6 +3,18 @@ const DiviaAPI = require('./');
 const Line = require('./Line');
 const { v4: uuidv4 } = require('uuid');
 
+/**
+ * @typedef StopObject
+ * @param {string} id 
+ * @param {string} code 
+ * @param {string} nom 
+ * @param {boolean} favori 
+ * @param {string} longitude 
+ * @param {string} latitude 
+ * @param {string} recherche 
+ * @param {string} direction 
+ */
+
 class Stop {
 
 	/**
