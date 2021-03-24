@@ -63,7 +63,7 @@ class Line {
 	 * @return {Stop.StopObject[]}
 	 */
 	get stops() {
-		return this.data.arrets;
+		return Object.values(this.data.arrets);
 	}
 
 	/**
