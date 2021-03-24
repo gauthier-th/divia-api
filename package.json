@@ -1,8 +1,8 @@
 {
   "name": "@gauthier-th/divia-api-v2",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Divia API v2",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "ts": "npx typescript src/index.js --declaration --allowJs --emitDeclarationOnly --outDir types",
     "test": "mocha"
