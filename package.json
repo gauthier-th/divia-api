@@ -1,6 +1,6 @@
 {
   "name": "@gauthier-th/divia-api-v2",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Divia API v2",
   "main": "src/index.js",
   "scripts": {
