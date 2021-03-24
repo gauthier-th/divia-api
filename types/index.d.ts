@@ -24,8 +24,14 @@ declare class DiviaAPI {
      * @returns {Stop}
      */
     findStop(lineName: string, stopName: string, direction?: string): Stop;
-    get lines(): any;
-    get stops(): any;
+    /**
+     * @returns {Line.LineObject[]}
+     */
+    get lines(): any[];
+    /**
+     * @returns {Stop.StopObject[]}
+     */
+    get stops(): any[];
     _getToken(): Promise<string>;
 }
 declare namespace DiviaAPI {
