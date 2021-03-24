@@ -78,7 +78,12 @@ describe('DiviaAPI', () => {
 				assert.fail();
 			else
 				assert.ok(true);
-			await stop.totem().then(() => assert.ok(true)).catch(() => assert.fail());
+			await stop.totem().then(passages => {
+				if (Array.isArray(passages))
+					assert.ok(true);
+				else
+					assert.fail();
+			}).catch(() => assert.fail());
 		});
 	});
 });
