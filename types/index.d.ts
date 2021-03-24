@@ -2,7 +2,7 @@ export = DiviaAPI;
 declare class DiviaAPI {
     /** @type {object} */
     reseau: object;
-    httpInstance: import("axios").AxiosInstance;
+    baseURL: string;
     /** @type {string} */
     _token: string;
     init(): Promise<void>;

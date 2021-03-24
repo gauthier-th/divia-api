@@ -10,7 +10,7 @@ declare class Stop {
     line: any;
     data: any;
     /**
-     * @returns {{
+     * @returns {Promise.<{
      *   '@id': number,
      *   duree: string,
      *   destination: string,
@@ -18,9 +18,9 @@ declare class Stop {
      *   duree2: string,
      *   departure_date_time: string,
      *   now_date_time: string
-     * }[]}
+     * }[]>}
      */
-    totem(): {
+    totem(): Promise<{
         '@id': number;
         duree: string;
         destination: string;
@@ -28,7 +28,7 @@ declare class Stop {
         duree2: string;
         departure_date_time: string;
         now_date_time: string;
-    }[];
+    }[]>;
 }
 declare namespace Stop {
     export { Stop as default };
