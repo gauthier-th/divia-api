@@ -2,7 +2,8 @@ const assert = require('assert');
 const jwt_decode = require('jwt-decode');
 const DiviaAPI = require('../src');
 
-describe('DiviaAPI', () => {
+describe('DiviaAPI', function() {
+	this.timeout(5000);
 	const instance = new DiviaAPI();
 	describe('#init', () => {
 		it('should fetch all bus/tramway lines', async () => {
