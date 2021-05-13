@@ -2,8 +2,18 @@ const assert = require('assert');
 const jwt_decode = require('jwt-decode');
 const DiviaAPI = require('../src');
 
-describe('DiviaAPI', function() {
+describe('DiviaAPI', async function() {
+	this.timeout(60000);
+
+	let ids;
+	describe('enter divia creditentials', () => {
+		it('creditentials input', async () => {
+			ids = await getIds();
+		});
+	});
+
 	this.timeout(5000);
+
 	const instance = new DiviaAPI();
 	describe('#init', () => {
 		it('should fetch all bus/tramway lines', async () => {
@@ -79,7 +89,7 @@ describe('DiviaAPI', function() {
 				assert.fail();
 			else
 				assert.ok(true);
-			await stop.totem().then(passages => {
+			await stop.totem(ids.username, ids.password).then(passages => {
 				if (Array.isArray(passages))
 					assert.ok(true);
 				else
@@ -88,3 +98,21 @@ describe('DiviaAPI', function() {
 		});
 	});
 });
+
+/**
+ * @returns {Promise<{ username: string, password: string }>}
+ */
+function getIds() {
+	return new Promise((resolve) => {
+		const readline = require('readline').createInterface({
+			input: process.stdin,
+			output: process.stdout
+		});
+		readline.question('username: ', username => {
+			readline.question('password: ', password => {
+				readline.close();
+				resolve({ username, password });
+			});
+		});
+	});
+}
