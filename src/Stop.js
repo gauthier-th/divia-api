@@ -28,6 +28,8 @@ class Stop {
 	}
 
 	/**
+	 * @param {string} username 
+	 * @param {string} password 
 	 * @returns {Promise.<{
 	 *   '@id': number,
 	 *   duree: string,
@@ -38,8 +40,8 @@ class Stop {
 	 *   now_date_time: string
 	 * }[]>}
 	 */
-	async totem() {
-		const token = await this.api._getToken();
+	async totem(username, password) {
+		const token = await this.api._getToken(username, password);
 		const response = await fetch(`${this.api.baseURL}get/totem?source_type=bo_divia_utilisateur&source_uuid=${uuidv4()}&source_id=&ligne=${this.line.data.id}&arret=${this.data.id}&token=${token}`).then(res => res.json());
 		return response.result_infos.totem;
 	}

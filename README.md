@@ -28,7 +28,7 @@ const api = new DiviaAPI();
     const stop = api.findStop('T1', 'Grésilles', 'A');
 
     // Récupère les prochains passages :
-    console.log(await stop.totem());
+    console.log(await stop.totem('username', 'password'));
 })();
 ```
 
