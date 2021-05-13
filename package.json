@@ -1,6 +1,6 @@
 {
-  "name": "@gauthier-th/divia-api-v2",
-  "version": "2.0.8",
+  "name": "divia-api",
+  "version": "2.1.0",
   "description": "Divia API v2",
   "main": "src/index.js",
   "scripts": {
@@ -9,18 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gauthier-th/divia-api-v2.git"
+    "url": "git+https://github.com/gauthier-th/divia-api.git"
   },
   "keywords": [],
-  "author": "gauthier-th",
+  "author": "gauthier-th (mail@gauthierth.fr)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gauthier-th/divia-api-v2/issues"
+    "url": "https://github.com/gauthier-th/divia-api/issues"
   },
-  "homepage": "https://github.com/gauthier-th/divia-api-v2#readme",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
+  "homepage": "https://github.com/gauthier-th/divia-api#readme",
   "dependencies": {
     "isomorphic-unfetch": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
