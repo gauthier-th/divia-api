@@ -22,23 +22,13 @@ declare class Stop {
     data: any;
     /**
      * @returns {Promise.<{
-     *   '@id': number,
-     *   duree: string,
-     *   destination: string,
-     *   minutes: string,
-     *   duree2: string,
-     *   departure_date_time: string,
-     *   now_date_time: string
+     *   text: string,
+     *   date: Date
      * }[]>}
      */
     totem(): Promise<{
-        '@id': number;
-        duree: string;
-        destination: string;
-        minutes: string;
-        duree2: string;
-        departure_date_time: string;
-        now_date_time: string;
+        text: string;
+        date: Date;
     }[]>;
 }
 declare namespace Stop {

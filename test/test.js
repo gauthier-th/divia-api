@@ -1,17 +1,7 @@
 const assert = require('assert');
-const jwt_decode = require('jwt-decode');
 const DiviaAPI = require('../src');
 
 describe('DiviaAPI', async function() {
-	this.timeout(60000);
-
-	let ids;
-	describe('enter divia creditentials', () => {
-		it('creditentials input', async () => {
-			ids = await getIds();
-		});
-	});
-
 	this.timeout(5000);
 
 	const instance = new DiviaAPI();
@@ -32,13 +22,6 @@ describe('DiviaAPI', async function() {
 				Array.isArray(instance.reseau.services) &&
 				typeof instance.reseau.liaisons === 'object'
 			)
-		});
-	});
-	describe('#getToken', () => {
-		it('should return a valid jwt access token', async () => {
-			const token = await instance._getToken().catch(() => assert.fail());
-			if (token)
-				jwt_decode(token);
 		});
 	});
 	describe('#getLine', () => {
@@ -89,30 +72,18 @@ describe('DiviaAPI', async function() {
 				assert.fail();
 			else
 				assert.ok(true);
-			await stop.totem(ids.username, ids.password).then(passages => {
-				if (Array.isArray(passages))
+			await stop.totem().then(passages => {
+				console.log(passages);
+				if (Array.isArray(passages)) {
+					for (let passage of passages) {
+						if (!passage.text.match(/^(0?|[12])\d:\d{2}$/ || !(passage.date instanceof Date)))
+							return assert.fail();
+					}
 					assert.ok(true);
+				}
 				else
 					assert.fail();
 			}).catch(() => assert.fail());
 		});
 	});
 });
-
-/**
- * @returns {Promise<{ username: string, password: string }>}
- */
-function getIds() {
-	return new Promise((resolve) => {
-		const readline = require('readline').createInterface({
-			input: process.stdin,
-			output: process.stdout
-		});
-		readline.question('username: ', username => {
-			readline.question('password: ', password => {
-				readline.close();
-				resolve({ username, password });
-			});
-		});
-	});
-}
