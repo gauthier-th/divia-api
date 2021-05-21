@@ -32,7 +32,11 @@ declare class DiviaAPI {
      * @returns {Stop.StopObject[]}
      */
     get stops(): any[];
-    _getToken(): Promise<string>;
+    /**
+     * @param {string} username
+     * @param {string} password
+     */
+    _getToken(username: string, password: string): Promise<string>;
 }
 declare namespace DiviaAPI {
     export { DiviaAPI as default };

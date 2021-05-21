@@ -21,6 +21,8 @@ declare class Stop {
     line: any;
     data: any;
     /**
+     * @param {string} username
+     * @param {string} password
      * @returns {Promise.<{
      *   '@id': number,
      *   duree: string,
@@ -31,7 +33,7 @@ declare class Stop {
      *   now_date_time: string
      * }[]>}
      */
-    totem(): Promise<{
+    totem(username: string, password: string): Promise<{
         '@id': number;
         duree: string;
         destination: string;
