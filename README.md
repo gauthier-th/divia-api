@@ -2,7 +2,7 @@
 
 Version 2 de l'API Divia.
 
-Puisque [l'ancienne API de Keolis](http://timeo3.keolis.com/relais/217.php) n'est plus disponible, celle-ci utilise l'API du [site de Divia](https://www.divia.fr/bus-tram) qui renvoie un extrait de page HTML dans lequel se trouve les horaires des prochains passages.
+Puisque [l'ancienne API de Keolis](http://timeo3.keolis.com/relais/217.php) n'est plus disponible, j'ai décompilé puis récupéré dans le code source de l'application Android les différentes méthodes pour accéder aux prochains passages Totem.
 
 ## Utilisation
 
@@ -28,7 +28,7 @@ const api = new DiviaAPI();
     const stop = api.findStop('T1', 'Grésilles', 'A');
 
     // Récupère les prochains passages :
-    console.log(await stop.totem());
+    console.log(await stop.totem('username', 'password'));
 })();
 ```
 
@@ -40,11 +40,23 @@ Pour chaque Line ou Stop, vous pouvez récupérer les données fournies par Divi
 
 L'API récupère dans un premier temps les données du réseau Divia à cette adresse : https://bo-api.divia.fr/api/reseau/type/json (méthode `api#init`) afin de pouvoir récupérer les identifiants et informations des lignes et arrêts. Vous pouvez donc si vous le souhaitez mettre en cache la variable JSON `api.reseau` afin d'éviter de refaire la requête à chaque démarrage de votre application.
 
-Pour récupérer les prochains passages Totem, il faut faire une requête HTTP POST à cette adresse : https://www.divia.fr/bus-tram?type=479, avec le contenu application/x-www-form-urlencoded suivant :
- - `requete=arret_prochainpassage`
- - `requete_val[id_ligne]=<id_ligne>`
- - `requete_val[id_arret]=<id_arrêt>`
-Note : bien penser à encoder les crochets avec URL encode (par exemple : `requete_val%5Bid_ligne%5D`).
+Pour récupérer les prochains passages Totem, il faut faire une requête HTTP GET à cette adresse : https://tim.divia.fr/api/get/totem, avec les [query params](https://en.wikipedia.org/wiki/Query_string) suivants :
+ - `source_type=bo_divia_utilisateur`
+ - `source_uuid=<uuid>`
+ - `source_id=`
+ - `ligne=<id_ligne>`
+ - `arret=<id_arrêt>`
+ - `token=<access_token>`
+avec :
+ - `uuid` : un UUID v4 généré aléatoirement
+ - `id_ligne` : identifiant de la ligne
+ - `id_arrêt` : identifiant de la l'arrêt
+ - `access_token` : [jeton d'accès JWT](https://jwt.io/) généré comme ci-dessous
+
+Pour générer le jeton d'accès JWT, il faut faire une requête HTTP POST à cette adresse : https://tim.divia.fr/api/login_check, avec les entêtes HTTP suivant :
+ - `Accept: application/json`
+ - `Content-Type: application/x-www-form-urlencoded`
+Et avec le body suivant : `_username=<username>&_password=<password>`
 
 ## Licence
 

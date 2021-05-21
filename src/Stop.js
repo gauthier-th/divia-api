@@ -28,41 +28,32 @@ class Stop {
 	}
 
 	/**
+	 * @param {string} username 
+	 * @param {string} password 
 	 * @returns {Promise.<{
-	 *   text: string,
-	 *   date: Date
+	 *   '@id': number,
+	 *   duree: string,
+	 *   destination: string,
+	 *   minutes: string,
+	 *   duree2: string,
+	 *   departure_date_time: string,
+	 *   now_date_time: string
 	 * }[]>}
 	 */
-	async totem() {
-		const result = [];
-		try {
-			const html = await fetch('https://www.divia.fr/bus-tram?type=479', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'X-Requested-With': 'XMLHttpRequest'
-				},
-				body: `requete=arret_prochainpassage&requete_val%5Bid_ligne%5D=${this.line.data.id}&requete_val%5Bid_arret%5D=${this.data.id}`
-			}).then(res => res.text());
-			let matches;
-			const regex = /<span class="uk-badge">\s*(((0?|[12])\d):(\d{2}))<\/span>/gi;
-			while (matches = regex.exec(html)) {
-				const hours = matches[2];
-				const minutes = matches[4];
-				const date = new Date();
-				date.setHours(hours, minutes, 0, 0);
-				result.push({
-					text: matches[1],
-					date
-				});
-			}
-		}
-		finally {
-			return result;
-		}
+	async totem(username, password) {
+		const token = await this.api._getToken(username, password);
+		const response = await fetch(`${this.api.baseURL}get/totem?source_type=bo_divia_utilisateur&source_uuid=${uuidv4()}&source_id=&ligne=${this.line.data.id}&arret=${this.data.id}&token=${token}`).then(res => res.json());
+		return response.result_infos.totem;
 	}
 
 }
+
+function uuidv4() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	  var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	  return v.toString(16);
+	});
+  }
 
 module.exports = Stop;
 module.exports.default = Stop;

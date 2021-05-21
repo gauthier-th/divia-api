@@ -2,6 +2,7 @@ export = DiviaAPI;
 declare class DiviaAPI {
     /** @type {object} */
     reseau: object;
+    baseURL: string;
     /** @type {string} */
     _token: string;
     init(): Promise<void>;
@@ -31,6 +32,7 @@ declare class DiviaAPI {
      * @returns {Stop.StopObject[]}
      */
     get stops(): any[];
+    _getToken(): Promise<string>;
 }
 declare namespace DiviaAPI {
     export { DiviaAPI as default };
