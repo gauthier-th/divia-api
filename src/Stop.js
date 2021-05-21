@@ -42,7 +42,7 @@ class Stop {
 					'Content-Type': 'application/x-www-form-urlencoded',
 					'X-Requested-With': 'XMLHttpRequest'
 				},
-				body: `requete=arret_prochainpassage&requete_val%5Bid_ligne%5D=${this.line.data.id}&requete_val%5Bid_arret%5D=${this.data.id}`
+				body: `requete=arret_prochainpassage&requete_val%5Bid_ligne%5D=${this.line.data.id}&requete_val%5Bid_arret%5D=${this.data.code}`
 			}).then(res => res.text());
 			let matches;
 			const regex = /<span class="uk-badge">\s*(((0?|[12])\d):(\d{2}))<\/span>/gi;
