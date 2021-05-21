@@ -1,6 +1,6 @@
 {
   "name": "divia-api",
-  "version": "2.1.1-token.1",
+  "version": "2.1.1-token.2",
   "description": "Divia API v2",
   "main": "src/index.js",
   "scripts": {
