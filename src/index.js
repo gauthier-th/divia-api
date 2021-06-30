@@ -21,7 +21,7 @@ class DiviaAPI {
 	 * @returns {Line}
 	 */
 	getLine(id) {
-		const line = this.reseau.arborescence.lignes[id];
+		const line = Object.values(this.reseau.arborescence.lignes).find(ligne => ligne.id === id);
 		if (line)
 			return new Line(this, line);
 	}
