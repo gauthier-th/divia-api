@@ -71,7 +71,7 @@ class Line {
 	 * @returns {Stop}
 	 */
 	getStop(id) {
-		const stop = this.data.arrets[id];
+		const stop = Object.values(this.data.arrets).find(arret => arret.id === id);
 		if (stop)
 			return new Stop(this.api, this, stop);
 	}
