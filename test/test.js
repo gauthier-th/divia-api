@@ -51,14 +51,14 @@ describe('DiviaAPI', async function() {
 	});
 	describe('#findStop', () => {
 		it('should find a tram stop by its name', () => {
-			const stop = instance.findStop('T1', 'Grésilles');
+			const stop = instance.findStop('T1', 'République T1');
 			if (!stop)
 				assert.fail();
 			else
 				assert.ok(true);
 		});
 		it('should find a tram stop in a specific direction by its name', () => {
-			const stop = instance.findStop('T1', 'Grésilles', 'R');
+			const stop = instance.findStop('T1', 'République T1', 'R');
 			if (!stop)
 				assert.fail();
 			else
@@ -67,7 +67,7 @@ describe('DiviaAPI', async function() {
 	});
 	describe('#totem', () => {
 		it('should find next totem passages', async () => {
-			const stop = instance.findStop('T1', 'Grésilles');
+			const stop = instance.findStop('T1', 'République T1');
 			if (!stop)
 				assert.fail();
 			else
