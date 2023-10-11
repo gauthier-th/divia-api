@@ -21,11 +21,11 @@ const api = new DiviaAPI();
     const line = api.getLine('82');
 
     // Récupère l'arrêt :
-    const stop = line.findStop('Grésilles');
+    const stop = line.findStop('République T1');
     // ou :
-    const stop = line.getStop('1555');
+    const stop = line.getStop('1560');
     // ou directement :
-    const stop = api.findStop('T1', 'Grésilles', 'A');
+    const stop = api.findStop('T1', 'République T1', 'A');
 
     // Récupère les prochains passages :
     console.log(await stop.totem());
