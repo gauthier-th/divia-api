@@ -1,9 +1,11 @@
 {
   "name": "divia-api",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Dvia API v2",
-  "main": "src/index.js",
+  "main": "dist/divia-api.min.js",
+  "module": "dist/divia-api.min.js",
   "scripts": {
+    "build": "webpack --mode=production",
     "ts": "npx typescript src/index.js --declaration --allowJs --emitDeclarationOnly --outDir types",
     "test": "mocha"
   },
@@ -25,7 +27,9 @@
   },
   "devDependencies": {
     "mocha": "^10.2.0",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   },
   "types": "types/index.d.ts"
 }
