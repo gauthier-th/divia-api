@@ -4,11 +4,26 @@ Version 2 de l'API Divia.
 
 Puisque [l'ancienne API de Keolis](http://timeo3.keolis.com/relais/217.php) n'est plus disponible, celle-ci utilise l'API du [site de Divia](https://www.divia.fr/bus-tram) qui renvoie un extrait de page HTML dans lequel se trouve les horaires des prochains passages.
 
+
+## Importation de l'API :
+
+- Avec ESM :
+    ```js
+    import DiviaAPI from 'divia-api';
+    ```
+- Avec CommonJS :
+    ```js
+    const DiviaAPI = require('divia-api');
+    ```
+- Via un CDN :
+    ```html
+    <script src="https://cdn.jsdelivr.net/npm/divia-api/dist/divia-api.min.js"></script>
+    ```
+
 ## Utilisation
 
 Exemple :
 ```js
-const DiviaAPI = require('divia-api');
 const api = new DiviaAPI();
 
 (async () => {

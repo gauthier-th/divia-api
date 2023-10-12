@@ -1,6 +1,6 @@
 {
   "name": "divia-api",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Dvia API v2",
   "main": "dist/divia-api.min.js",
   "module": "dist/divia-api.min.js",
