@@ -1,68 +1,103 @@
-# Divia API
+# Divia API v3
 
-Version 2 de l'API Divia.
+API JavaScript/TypeScript non officielle pour accéder aux données temps réel du réseau de transport Divia (Dijon Métropole) : lignes, arrêts et horaires.
 
-Puisque [l'ancienne API de Keolis](http://timeo3.keolis.com/relais/217.php) n'est plus disponible, celle-ci utilise l'API du [site de Divia](https://www.divia.fr/bus-tram) qui renvoie un extrait de page HTML dans lequel se trouve les horaires des prochains passages.
+## Installation
 
+```bash
+npm install divia-api
+```
 
-## Importation de l'API :
+## Importation
 
 - Avec ESM :
     ```js
-    import DiviaAPI from 'divia-api';
+    import { listLines, listStops, getSchedules } from 'divia-api';
     ```
 - Avec CommonJS :
     ```js
-    const DiviaAPI = require('divia-api');
-    ```
-- Via un CDN :
-    ```html
-    <script src="https://cdn.jsdelivr.net/npm/divia-api/dist/divia-api.min.js"></script>
+    const { listLines, listStops, getSchedules } = require('divia-api');
     ```
 
 ## Utilisation
 
-Exemple :
 ```js
-const api = new DiviaAPI();
+import { listLines, listStops, getSchedules } from 'divia-api';
 
-(async () => {
-    // Charge les données de Divia (https://bo-api.divia.fr/api/reseau/type/json) dans api.reseau :
-    await api.init();
+// Récupère toutes les lignes de tramway (ou "bus") :
+const lines = await listLines('tramway');
+console.log(lines);
 
-    // Récupère la ligne :
-    const line = api.findLine('T1', 'A');
-    // ou :
-    const line = api.getLine('82');
+// Récupère les arrêts d'une ligne :
+const stops = await listStops(lines[0].id);
+console.log(stops);
 
-    // Récupère l'arrêt :
-    const stop = line.findStop('République T1');
-    // ou :
-    const stop = line.getStop('1560');
-    // ou directement :
-    const stop = api.findStop('T1', 'République T1', 'A');
-
-    // Récupère les prochains passages :
-    console.log(await stop.totem());
-})();
+// Récupère les prochains horaires pour une ligne et un arrêt :
+const schedules = await getSchedules(lines[0].id, stops[0].id);
+console.log(schedules);
 ```
 
-Chaque ligne possède deux directions : `A` et `R`. `A` est utilisé par défaut dans l'API.
+## API
 
-Pour chaque Line ou Stop, vous pouvez récupérer les données fournies par Divia via la propriété `data`.
+### `listLines(mode: 'bus' | 'tramway'): Promise<LineObject[]>`
+
+Récupère la liste des lignes pour un mode de transport donné.
+
+### `listStops(lineId: string): Promise<StopAreaObject[]>`
+
+Récupère la liste des arrêts pour une ligne donnée.
+
+### `getSchedules(lineId: string, stopAreaId: string): Promise<ScheduleObject[]>`
+
+Récupère les prochains horaires en temps réel pour une ligne et un arrêt donnés.
+
+## Types
+
+### `LineObject`
+
+| Propriété      | Type            | Description               |
+|----------------|-----------------|---------------------------|
+| `id`           | `string`        | Identifiant de la ligne   |
+| `name`         | `string`        | Nom de la ligne           |
+| `code`         | `string`        | Code court de la ligne    |
+| `color`        | `string`        | Couleur de la ligne (hex) |
+| `text_color`   | `string`        | Couleur du texte (hex)    |
+| `codes`        | `array`         | Codes associés            |
+| `routes`       | `RouteObject[]` | Itinéraires de la ligne   |
+| `opening_time` | `Date`          | Heure d'ouverture         |
+| `closing_time` | `Date`          | Heure de fermeture        |
+
+### `StopAreaObject`
+
+| Propriété  | Type     | Description                    |
+|------------|----------|--------------------------------|
+| `id`       | `string` | Identifiant de la zone d'arrêt |
+| `name`     | `string` | Nom de l'arrêt                 |
+| `codes`    | `array`  | Codes associés                 |
+| `timezone` | `string` | Fuseau horaire                 |
+| `label`    | `string` | Libellé de l'arrêt             |
+| `coord`    | `object` | Coordonnées (`lon`, `lat`)     |
+
+### `ScheduleObject`
+
+| Propriété              | Type               | Description                |
+|------------------------|--------------------|----------------------------|
+| `stop_point`           | `StopPointObject`  | Point d'arrêt associé      |
+| `route`                | `RouteObject`      | Itinéraire associé         |
+| `display_informations` | `object`           | Informations d'affichage   |
+| `date_times`           | `DateTimeObject[]` | Horaires associés          |
+| `links`                | `object[]`         | Liens associés             |
+| `first_datetime`       | `DateTimeObject`   | Premier horaire disponible |
+| `last_datetime`        | `DateTimeObject`   | Dernier horaire disponible |
 
 ## Fonctionnement
 
-L'API récupère dans un premier temps les données du réseau Divia à cette adresse : https://bo-api.divia.fr/api/reseau/type/json (méthode `api#init`) afin de pouvoir récupérer les identifiants et informations des lignes et arrêts. Vous pouvez donc si vous le souhaitez mettre en cache la variable JSON `api.reseau` afin d'éviter de refaire la requête à chaque démarrage de votre application.
+L'API utilise l'infrastructure Navitia via un proxy presigné (`nws-main.hove.io`). L'authentification est gérée automatiquement via un token chiffré AES-GCM dérivé par PBKDF2. Aucune clé API n'est nécessaire côté utilisateur.
 
-Pour récupérer les prochains passages Totem, il faut faire une requête HTTP POST à cette adresse : https://www.divia.fr/bus-tram?type=479, avec le contenu application/x-www-form-urlencoded suivant :
- - `requete=arret_prochainpassage`
- - `requete_val[id_ligne]=<id_ligne>`
- - `requete_val[id_arret]=<id_arrêt>`
-Note : bien penser à encoder les crochets avec URL encode (par exemple : `requete_val%5Bid_ligne%5D`).
+Les données temps réel sont récupérées via les endpoints `terminus_schedules` de l'API Navitia pour la couverture `fr-ne-dijon`.
 
 ## Licence
 
 Licence MIT
 
-Copyright (c) 2021 gauthier-th (mail@gauthier-th.fr)
+Copyright (c) 2026 gauthier-th (mail@gauthier-th.fr)
