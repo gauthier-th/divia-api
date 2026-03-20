@@ -22,19 +22,26 @@ npm install divia-api
 ## Utilisation
 
 ```js
-import { listLines, listStops, getSchedules } from 'divia-api';
+import { listLines, listStops, getSchedules } from './dist/divia-api.cjs';
 
 // Récupère toutes les lignes de tramway (ou "bus") :
 const lines = await listLines('tramway');
-console.log(lines);
+const lineT1 = lines.find((line) => line.code === 'T1');
 
 // Récupère les arrêts d'une ligne :
-const stops = await listStops(lines[0].id);
-console.log(stops);
+const stops = await listStops(lineT1.id);
+const stopRépublique = stops.find((stop) => stop.name === 'République');
 
 // Récupère les prochains horaires pour une ligne et un arrêt :
-const schedules = await getSchedules(lines[0].id, stops[0].id);
-console.log(schedules);
+const schedules = await getSchedules(lineT1.id, stopRépublique.id);
+
+// Récupère les horaires pour la direction "QUETIGNY Centre" :
+const scheduleDirectionQuetigny = schedules.find((s) => s.route.direction.name.startsWith('QUETIGNY Centre'));
+
+// Affiche les 3 prochains horaires de cette direction :
+const newSchedules = scheduleDirectionQuetigny.date_times.slice(0, 3);
+newSchedules.forEach((s) => console.log(s.date_time));
+
 ```
 
 ## API
