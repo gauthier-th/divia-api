@@ -12,8 +12,8 @@ function getTimezoneOffset(timeZone: string): number {
   const offset = tz.find(p => p.type === 'timeZoneName')!.value;
 
   const match = offset.match(/GMT([+-]\d{2}):(\d{2})/)!;
-  const hours = parseInt(match[1], 10);
-  const minutes = parseInt(match[2], 10);
+  const hours = parseInt(match?.[1] || "0", 10);
+  const minutes = parseInt(match?.[2] || "0", 10);
 
   return hours * 60 + Math.sign(hours) * minutes;
 }

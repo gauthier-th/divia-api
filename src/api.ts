@@ -2,7 +2,7 @@ function bufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
   const bytes = new Uint8Array(buffer);
   let binary = "";
   for (let i = 0; i < bytes.byteLength; i++) {
-    binary += String.fromCharCode(bytes[i]);
+    binary += String.fromCharCode(bytes[i]!);
   }
   return btoa(binary);
 }
@@ -72,7 +72,7 @@ export async function fetchData({
   const token = await generateToken();
 
   // Get presigned URL
-  const { url: presignedUrl } = await fetch(
+  const res = await fetch(
     `${originUrl}/api/presign`,
     {
       method: "POST",
@@ -90,6 +90,7 @@ export async function fetchData({
       }),
     },
   ).then((res) => res.json());
+  const { url: presignedUrl } = res as { url: string };
 
   // Fetch data using presigned URL
   return await fetch(`${originUrl}/api/proxy`, {
