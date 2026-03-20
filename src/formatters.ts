@@ -118,5 +118,6 @@ export function formatDateTime(dateTime: any): DateTimeObject {
   return {
     date_time: formatDateTimeString(dateTime.date_time),
     base_date_time: formatDateTimeString(dateTime.base_date_time),
+    data_freshness: dateTime.data_freshness,
   };
 }

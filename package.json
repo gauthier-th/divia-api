@@ -1,7 +1,8 @@
 {
   "name": "divia-api",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Divia API v3",
+  "type": "module",
   "main": "dist/divia-api.cjs",
   "module": "dist/divia-api.mjs",
   "types": "dist/index.d.ts",

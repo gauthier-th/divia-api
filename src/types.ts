@@ -72,4 +72,5 @@ export interface StopPointObject {
 export interface DateTimeObject {
   date_time: Date;
   base_date_time: Date;
+  data_freshness: "realtime" | "base_schedule";
 }
